@@ -2,47 +2,71 @@
 #include <stdlib.h>
 
 typedef struct edge{
-	int nodeOneNumber;
-	int nodeTwoNumber;
+	struct node *nodeOneNum;
+	struct node *nodeTwoNum;
 	int weigth;
 }edge;
 
 typedef struct node{
-	int nodeNumber;
-	struct edge edges[4];
+	int nodeNum;
+	struct edge *edges;
 	int edgesNum;
 }node;
 
-int edgeMax(node *platforms, int size){
-	int eMax = 0;
-	for(int i = 0; i < size; i++){
-		for(int j = 0; j < platform[i].edgesNum; j++){
-			if(eMax < platform[i].edges[j]){
-				eMax = platform[i].edges[j].weigth;
-			}
+void BFS(node *platforms, int *getTo, int start, int jump){
+	getTo[start] = 1;
+	for(int i = 0; i < platforms[start].edgesNum; i++){
+		if(platforms[start].edges[i].weigth <= jump && getTo[i] != 1){
+			getTo[i] = 1;
+			BFS(platforms, getTo, getTo[i], jump);
 		}
 	}
-	return eMax;
 }
 
 int main(){
-	struct node *platforms;
-	int platformsCount = 0;
-	scanf("%d", &platformsCount);
+	int platformsCount = 2;
+	node *platforms = malloc(platformsCount * sizeof(struct node));
+	
+	platforms[0].nodeNum = 0;
+	platforms[0].edgesNum = 1;
+	platforms[0].edges = malloc(sizeof(edge));
+	platforms[0].edges[0].nodeOneNum = &platforms[0];
+	platforms[0].edges[0].nodeTwoNum = &platforms[1];
+	platforms[0].edges[0].weigth = 9;
+
+	platforms[1].nodeNum = 1;
+	platforms[1].edgesNum = 1;
+	platforms[1].edges = malloc(sizeof(edge));
+	platforms[1].edges[0].nodeOneNum = &platforms[1];
+	platforms[1].edges[0].nodeTwoNum = &platforms[0];
+	platforms[1].edges[0].weigth = 9;
+
+
+
+
 	int peshoJump;
-	int policaiCount;
-	int pMax = 0;
-	int policaiJump[policaiCount];
-	int eMax = 0;
-	scanf("%d %d", &peshoJump, &policaiCount);
-	for(int i = 0; i < policaiCount; i++){
-		scanf("%d", &policaiJump[i]);
-		if(pMax < policaiJump[i]){
-			pMax = policaiJump[i];
+	int policaiJump;
+	
+	int peshoStart;
+	int policaiStart;
+
+	scanf("%d", &peshoStart);
+	scanf("%d", &policaiStart);
+
+	scanf("%d", &peshoJump);
+	scanf("%d", &policaiJump);
+	
+	int *peGetTo = calloc(platformsCount, sizeof(int));
+	int *poGetTo = calloc(platformsCount, sizeof(int));
+	BFS(platforms, peGetTo, 1, peshoJump);
+	BFS(platforms, poGetTo, 1, policaiJump);
+	for(int i = 0; i < platformsCount; i++){
+		printf("%d %d\n", peGetTo[i], poGetTo[i]);
+	}
+	for(int i = 0; i < platformsCount; i++){
+		if(peGetTo[i] > poGetTo[i]){
+			printf("Pesho can escape");
 		}
 	}
-	eMax = edgeMax(platforms, platformsCount);
-	if(pMax > eMax){
-		printf("Pesho can not escape");
-	}
+	return 0;
 }

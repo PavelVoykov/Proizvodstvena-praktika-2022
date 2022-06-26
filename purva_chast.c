@@ -40,10 +40,10 @@ edge *createEdge(struct node *nodeOneNum, struct node *nodeTwoNum, int arr[amoun
     int x;
     int y;
 
-    if(arr[nodeOneNum->nodeNum][0][0] > arr[nodeTwoNum->nodeNum][1][0]){x = arr[nodeOneNum->nodeNum][0][0] - arr[nodeTwoNum->nodeNum][0][0];}
-else if(arr[nodeOneNum->nodeNum][0][0] < arr[nodeTwoNum->nodeNum][1][0]){x = arr[nodeTwoNum->nodeNum][1][0] - arr[nodeOneNum->nodeNum][0][0];}
+    if(arr[nodeOneNum->nodeNum][0][0] > arr[nodeTwoNum->nodeNum][1][0]){x = arr[nodeOneNum->nodeNum][0][0] - arr[nodeTwoNum->nodeNum][1][0];}
+    else if(arr[nodeOneNum->nodeNum][0][0] < arr[nodeTwoNum->nodeNum][1][0]){x = arr[nodeTwoNum->nodeNum][1][0] - arr[nodeOneNum->nodeNum][0][0];}
 
-    if(arr[nodeOneNum->nodeNum][0][1] > arr[nodeTwoNum->nodeNum][1][1]){y = arr[nodeOneNum->nodeNum][0][1] - arr[nodeTwoNum->nodeNum][0][1];}
+    if(arr[nodeOneNum->nodeNum][0][1] > arr[nodeTwoNum->nodeNum][1][1]){y = arr[nodeOneNum->nodeNum][0][1] - arr[nodeTwoNum->nodeNum][1][1];}
     else if(arr[nodeOneNum->nodeNum][0][1] < arr[nodeTwoNum->nodeNum][1][1]){y = arr[nodeTwoNum->nodeNum][1][1] - arr[nodeOneNum->nodeNum][0][1];}
 
     weight = sqrt(x^2 + y^2);
@@ -51,12 +51,10 @@ else if(arr[nodeOneNum->nodeNum][0][0] < arr[nodeTwoNum->nodeNum][1][0]){x = arr
     if(arr[nodeOneNum->nodeNum][1][0] > arr[nodeTwoNum->nodeNum][0][0]){x = arr[nodeOneNum->nodeNum][1][0] - arr[nodeTwoNum->nodeNum][0][0];}
     else if(arr[nodeOneNum->nodeNum][1][0] < arr[nodeTwoNum->nodeNum][0][0]){weight = arr[nodeTwoNum->nodeNum][0][0] - arr[nodeOneNum->nodeNum][1][0];}
 
-    if(arr[nodeOneNum->nodeNum][1][1] > arr[nodeTwoNum->nodeNum][0][1]){x = arr[nodeOneNum->nodeNum][0][1] - arr[nodeTwoNum->nodeNum][0][1];}
-    else if(arr[nodeOneNum->nodeNum][0][1] < arr[nodeTwoNum->nodeNum][1][1]){x = arr[nodeTwoNum->nodeNum][0][1] - arr[nodeOneNum->nodeNum][1][1];}
+    if(arr[nodeOneNum->nodeNum][1][1] > arr[nodeTwoNum->nodeNum][0][1]){x = arr[nodeOneNum->nodeNum][1][1] - arr[nodeTwoNum->nodeNum][0][1];}
+    else if(arr[nodeOneNum->nodeNum][1][1] < arr[nodeTwoNum->nodeNum][0][1]){x = arr[nodeTwoNum->nodeNum][0][1] - arr[nodeOneNum->nodeNum][1][1];}
 
     if(weight > sqrt(x^2 + y^2)){weight = sqrt(x^2 + y^2);}
-
-    printf("1: %d, 2: %d, weight: %d\n", nodeOneNum->nodeNum, nodeTwoNum->nodeNum, weight);
 
     return link;
 
@@ -135,11 +133,9 @@ void arrToNodes(int arr[amount_of_platforms][2][2]){
 
     for(int i = 0; i < edgesNum; i++){
 
-        head.edges[i] = *createEdge(&head, createNode(i + 1, arr, &head), arr);////////////////
+        head.edges[i] = *createEdge(&head, createNode(i + 1, arr, &head), arr);
 
     }
-
-    printf("%d\n", head.edges[0].nodeTwoNum->edgesNum);
 
 }
 
@@ -148,11 +144,27 @@ int main()
 
     mfont();
 
-    //if(readFile("abc.txt")[5] != '\n'){return -1;}
+    char *filename;
+
+    printf("Enter file name: ");
+    scanf("%s", &filename);
+
+    int peshoJump;
+
+    printf("Enter how far Pesho can jump: ");
+    scanf("%d", &peshoJump);
+
+    int copsJump;
+
+    printf("Enter how far the cops can jump: ");
+    scanf("%d", &copsJump);
+
+    int starting_platform_id;
+
+    printf("Enter starting platform id: ");
+    scanf("%d", &starting_platform_id);
 
     fileToMeadow("abc.txt");
-
-    //printf("%c", code[0]);
 
     meadowToArr();
 
